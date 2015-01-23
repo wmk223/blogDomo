@@ -1,0 +1,44 @@
+<% include head %>
+
+ <section class="main-content">
+ 	<div class="container">
+ 	<div class="row">
+ 		<ol class="breadcrumb">
+ 		  <li><a href="/">首页</a></li>
+ 		  <li><a href="/list/<%=info.category%>">
+ 		  <%config.blog_category.forEach(function(items){
+ 		  	if(info.category == items.name){%>
+ 		  	<%=items.title%>
+ 		  	<%}})%>
+ 		  </a></li>
+ 		  <li class="active"><%=info.title%></li>
+ 		</ol>
+ 	</div>
+ 	<div class="row">
+ 		<div class="col-md-9">
+ 			  <h4><%=info.title%> <small><%=formatDate(false,info.create_time)%></small></h4>
+ 			  <h6><%=info.description%></h6>
+ 			  <p class="muted">
+ 			  <%=info.content%>
+ 			  </p>
+ 		</div>
+ 		<div class="col-md-3">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<div class="panel-title">精选阅读</div>
+				</div>
+				<div class="panel-body">
+					<div class="list-group">
+					<%topblog.forEach(function(res){%>
+					<a href="/read/<%=res.id%>" class="list-group-item"><%=res.title%></a>
+					<%})%>
+					</div>
+				</div>
+			</div>	
+			</div>
+	    </div>
+ 	</div>
+ </section>
+
+
+<% include foot %>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Flat UI Free 101 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Loading Bootstrap -->
+    <link href="/resource/css/vendor/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Loading Flat UI -->
+    <link href="/resource/css/flat-ui.min.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="/resource/js/vendor/html5shiv.js"></script>
+      <script src="/resource/js/vendor/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+<div class="container">
+<ul class="nav nav-tabs">
+  <li role="presentation"><a href="/Admin">全部文章</a></li>
+  <li role="presentation" class="active"><a href="#">添加文章</a></li>
+  <li role="presentation"><a href="#">退出</a></li>
+</ul>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">添加文章</div>
+    </div>
+    <div class="panel-body">
+      <form role="form" method="post" action="/admin/add" enctype="multipart/form-data">
+        <div class="row">
+        <div class="col-md-5">
+          <input type="text" name="title" class="form-control" placeholder="文章标题">
+        </div>
+        <div class="col-md-7">
+          <select class="form-control">
+            <option>--请选择文章分类--</option>
+            <%config.blog_category.forEach(function(item){%>
+              <option value="<%=item.name%>"><%=item.title%></option>
+            <%})%>
+          </select>
+        </div>
+        </div>
+
+        <div class="form-group">
+          <label>文章简介</label>
+          <input type="text" name="description" class="form-control" placeholder="文章简介">
+        </div>
+        <div class="form-group">
+          <label>封面图片</label>
+          <input type="file" name="cover">
+          <p class="help-block">请上传一个博客的图片.</p>
+        </div>
+        <div class="form-group">
+        <label>博客内容</label>
+          <textarea class="form-control" name="content" rows="10"></textarea>
+        </div>
+        <button type="submit" class="btn btn-info btn-block"> 发 布 博 客 </button>
+        <!-- <button type="button" id="addBlog" class="btn btn-info btn-block"> 发 布 博 客 </button> -->
+      </form>
+    </div>
+  </div>
+</div>
+
+      <script src="/resource/js/vendor/jquery.min.js"></script>
+      <!-- Include all compiled plugins (below), or include individual files as needed -->
+      <script src="/resource/js/vendor/video.js"></script>
+      <script src="/resource/js/flat-ui.min.js"></script>
+      <script type="text/javascript">
+      $(function(){
+        $('#addBlog').on('click',function(){
+          $.post('/admin/add',$('form').serialize()).success(function(data){
+            console.log(data)
+          });
+        });
+      })
+      </script>
+    </body>
+  </html>

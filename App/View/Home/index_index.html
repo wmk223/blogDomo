@@ -1,0 +1,31 @@
+<% include head %>
+    <div class="jumbotron">
+      <div class="container">
+        <h1>My blog!</h1>
+        <p>copyright by vace ...</p>
+        <p>
+          <a class="btn btn-primary btn-lg">Learn more</a>
+        </p>
+      </div>
+    </div>
+    <!-- 主要内容 -->
+    <section>
+      <div class="container">
+        <div class="row">
+        <%bloglist.forEach(function(item){%>
+        <div class="col-md-6">
+          <div class="col-md-7">
+            <h4><a href="/read/<%=item.id%>"><%=item.title%></a><small><%=item.create_time%></small></h4>
+            <p><%=item.description%></p>
+          </div>
+          <div class="col-md-5">
+            <a href="#" class="thumbnail">
+              <img src="http://www.gbtags.com/gb/laitu/500x500" alt="">
+            </a>
+          </div>
+        </div>
+        <%})%>
+        </div>
+      </div>
+    </section>
+<% include foot %>
