@@ -1,6 +1,20 @@
+<<<<<<< HEAD
 App/Runtime/Data/app.pid
 App/Runtime/Cache
 node_modules/
 output/
 output.tar.gz
 sftp-config.json
+=======
+# Build and Release Folders
+bin/
+bin-debug/
+bin-release/
+
+# Other files and folders
+.settings/
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
+>>>>>>> 4664fd41176e798deba7ebff6bd6cf6c99259f7b
