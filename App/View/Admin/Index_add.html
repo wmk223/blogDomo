@@ -24,7 +24,7 @@
 <ul class="nav nav-tabs">
   <li role="presentation"><a href="/Admin">全部文章</a></li>
   <li role="presentation" class="active"><a href="#">添加文章</a></li>
-  <li role="presentation"><a href="#">退出</a></li>
+  <li role="presentation"><a href="/Admin/Public/lgout">[<%=userInfo.user%>]退出</a></li>
 </ul>
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -37,7 +37,7 @@
           <input type="text" name="title" class="form-control" placeholder="文章标题">
         </div>
         <div class="col-md-7">
-          <select class="form-control">
+          <select name="category" class="form-control">
             <option>--请选择文章分类--</option>
             <%config.blog_category.forEach(function(item){%>
               <option value="<%=item.name%>"><%=item.title%></option>

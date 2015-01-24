@@ -9,7 +9,15 @@ module.exports = Controller(function(){
   return {
     init: function(http){
       this.super("init", http);
-      //其他的通用逻辑
+      //从session读取管理员信息,有就显示菜单
+      var self = this;
+      return self.session('UserInfo').then(function(data){
+      	if(isEmpty(data)){
+      		self.assign('login',false);
+      	}
+      	self.assign('login',data);
+      });
+      
       
     },
 

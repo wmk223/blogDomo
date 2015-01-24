@@ -23,7 +23,7 @@ module.exports = Model(function(){
 		//获取主页
 		getIndex:function(limit){
 			return this.limit(limit | 12).select()
-		}
+		},
 
 
 	}

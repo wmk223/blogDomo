@@ -21,6 +21,9 @@ global.formatDate = function(formatStr, fdate){
 	 }
 	 return formatStr;
 }
+global.getPictureName=function(){
+	return formatDate('ymdhis');
+}
 var cate = {};
 (function(){
 	var _tmp = C('blog_category')

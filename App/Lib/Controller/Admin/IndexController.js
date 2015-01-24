@@ -33,24 +33,89 @@ module.exports = Controller("Home/BaseController", function(){
     addAction:function(){
     	var self = this;
       if(self.isPost()){
-        return self.error(self.file('cover'))
+        var fs = require('fs');
+        var img = self.file('cover');
+        var title = self.post('title');
+        var category = self.post('category');
+        if(!self.valid(title,'required')){
+          return this.error('博客标题必须');
+        }
+        if(!getCategory(category)){
+          return this.error('请选择博客分类');
+        }
+        if(!img.originalFilename || !img.size){
+          return this.error('博客必须上传一张封面哦');
+        } 
+        // TODO检测文件类型,这里略去了
+        var suffix = img.originalFilename.match(/\.(jpg|png|jpeg|gif)$/);
+        if(suffix[0]){
+          var coverpath = getPictureName()+suffix[0];
+          return fs.rename(img.path,RESOURCE_PATH+'/resource/img/' + coverpath,function(err){
+            return D('Blog').add({
+              title:title,
+              category:category,
+              description:self.post('description'),
+              content:self.post('content'),
+              cover:coverpath,
+              create_time:Date.parse(new Date) / 1000,
+            }).then(function(insert){
+              if(insert){
+                return slef.success('博客发表成功');
+              }else
+                return self.error('博客发表失败');
+            });
+          });
+        }else{
+          return self.error('文件格式只允许jpg,png,jpeg,gif图片');
+        }
+        // return self.error(img);
       }else{
       	return self.display();
       }
     },
     editAction:function(){
       var self = this,id = this.get('id');
-      return M('Blog').where({id:id}).find().then(function(data){
-        if(isEmpty(data)){
-          return self.error('文章不存在');
-        }else{
-          self.assign('info',data);
-          return self.display();
+      if(self.isPost()){
+        var fs = require('fs');
+        var img = self.file('cover');
+        var title = self.post('title');
+        var category = self.post('category');
+        var data = {};
+        if(!self.valid(title,'required')){
+          return this.error('博客标题必须');
         }
+        if(!getCategory(category)){
+          return this.error('请选择博客分类');
+        }
+        if(img.originalFilename && img.size){
+          var suffix = img.originalFilename.match(/\.(jpg|png|jpeg|gif)$/);
+          if(suffix[0]){
+            var coverpath = getPictureName()+suffix[0];
+            fs.rename(img.path,RESOURCE_PATH+'/resource/img/' + coverpath,function(){});
+            data.cover = coverpath;
+          }
+        }
+        data.title = title;
+        data.category = category;
+        data.description = self.post('description');
+        data.content = self.post('content');
+        return D('Blog').where({id:self.post('id')}).save(data).then(function(){
+          return self.success('文章修改成功');
+        });
+      }else{
+        return M('Blog').where({id:id}).find().then(function(data){
+          if(isEmpty(data)){
+            return self.error('文章不存在');
+          }else{
+            self.assign('info',data);
+            return self.display();
+          }
 
-      }).catch(function(err){
-        return this.error('服务器出现错误');
-      });
+        }).catch(function(err){
+          return this.error('服务器出现错误');
+        });
+      }
+      
     },
     delAction:function(){
       var self = this;
@@ -73,6 +138,6 @@ module.exports = Controller("Home/BaseController", function(){
     //empty操作
     __call:function(action){
       this.end(action+'不存在');
-    }
+    },
   };
 });
