@@ -7,13 +7,28 @@ module.exports = Controller("Home/BaseController", function(){
   return {
     //首页,加载最新的12偏文章
     indexAction: function(){
+      //搜索
       var self = this
-      D('Blog').getIndex(12).then(function(data){
+      return D('Blog').getIndex(12).then(function(data){
         self.assign('bloglist',data)
-        self.display()
+        return self.display()
       }).catch(function(err){
         self.error('服务器出错');
       })
+    },
+    searchAction:function(){
+      var self = this
+      var keyword = self.get('k')
+      if(keyword){
+        return D('Blog').where({title:['like','%'+keyword+'%']}).limit(12).select().then(function(data){
+          self.assign('blog',data);
+          return self.display();
+        }).catch(function(err){
+          self.error('服务器出错');
+        })
+      }else{
+        return self.error('请输入搜索关键字');
+      }
     },
     //用于404的访问
     _404Action:function(){
